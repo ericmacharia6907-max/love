@@ -34,10 +34,6 @@
       height: 0;
     }
 
-    /*
-      The WRAPPER stays fixed on the heart curve.
-      It only handles position — no animation.
-    */
     .word {
       position: absolute;
       left: 0;
@@ -47,34 +43,25 @@
       user-select: none;
     }
 
-    /*
-      The INNER span spins on its own axis.
-      It does NOT affect the wrapper position.
-    */
     .word > span {
       display: inline-block;
       white-space: nowrap;
-      font-size: 13px;
+      font-size: 11px;
       font-weight: 700;
-      letter-spacing: 0.4px;
+      letter-spacing: 0.3px;
       color: #ea80b0;
       transform-origin: center center;
 
       text-shadow:
-        0 0  6px #ffffff,
-        0 0 12px #ffffff,
-        0 0 24px rgba(234, 128, 176, 0.85),
-        0 0 40px rgba(234, 128, 176, 0.45);
+        0 0  5px #ffffff,
+        0 0 10px #ffffff,
+        0 0 20px rgba(234, 128, 176, 0.85),
+        0 0 35px rgba(234, 128, 176, 0.45);
 
       animation: selfSpin 6s linear infinite;
       animation-delay: calc(var(--i) * -50ms);
     }
 
-    /*
-      Full 360° rotation around each word's own center.
-      The word spins in place.
-      The heart shape doesn't move at all.
-    */
     @keyframes selfSpin {
       from { transform: rotate(0deg);   }
       to   { transform: rotate(360deg); }
@@ -89,12 +76,11 @@
   <script>
     const heart = document.getElementById('heart');
     const COUNT = 120;
-    const SCALE = 20;
+    const SCALE = 12;  // ← reduced from 20 to 12
 
     for (let i = 1; i <= COUNT; i++) {
       const t = (i / COUNT) * Math.PI * 2;
 
-      // Heart parametric equations
       const x = 16 * Math.pow(Math.sin(t), 3);
       const y =
         13 * Math.cos(t) -
@@ -102,14 +88,12 @@
          2 * Math.cos(3 * t) -
              Math.cos(4 * t);
 
-      // Wrapper — fixed position on heart curve
       const wrapper = document.createElement('div');
       wrapper.className = 'word';
       wrapper.style.setProperty('--i', i);
       wrapper.style.setProperty('--x', `${x * SCALE}px`);
       wrapper.style.setProperty('--y', `${-y * SCALE}px`);
 
-      // Inner span — this is what spins
       const inner = document.createElement('span');
       inner.textContent = 'I love you';
 
